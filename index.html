@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Leitura do Coração | Baralho Cigano Personalizado</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Colors */
+            --bg-principal: #050510;
+            --bg-secundario-1: #0a0820;
+            --bg-secundario-2: #0f0d2a;
+            --surface-card: rgba(45, 31, 94, 0.5);
+            --dourado-principal: #c9933a;
+            --dourado-claro: #e8b96a;
+            --dourado-palido: #f5dfa0;
+            --rosa-vinho: #c96b7a;
+            --rosa-vinho-dark: #8b2252;
+            --prata: #a8a0b8;
+            --creme: #f5f0e8;
+            
+            /* Borders */
+            --border-gold-light: 1px solid rgba(201, 147, 58, 0.2);
+            --border-gold-medium: 1px solid rgba(201, 147, 58, 0.4);
+            --border-radius: 4px;
+            
+            /* Typography */
+            --font-title: 'Cormorant Garamond', serif;
+            --font-label: 'Cinzel', serif;
+            --font-body: 'Lato', sans-serif;
+            
+            /* Links */
+            --checkout-link: 'https://pay.hotmart.com/H105947064I';
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--creme);
+            background-color: var(--bg-principal);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Starry Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                radial-gradient(1.5px 1.5px at 15% 25%, #fff, transparent),
+                radial-gradient(2px 2px at 45% 10%, var(--dourado-palido), transparent),
+                radial-gradient(1px 1px at 75% 35%, #fff, transparent),
+                radial-gradient(2px 2px at 90% 70%, var(--dourado-claro), transparent),
+                radial-gradient(1.5px 1.5px at 20% 85%, #fff, transparent),
+                radial-gradient(1px 1px at 55% 65%, var(--dourado-palido), transparent),
+                radial-gradient(2px 2px at 80% 15%, #fff, transparent),
+                radial-gradient(1px 1px at 30% 50%, var(--dourado-claro), transparent),
+                radial-gradient(1.5px 1.5px at 10% 90%, #fff, transparent),
+                radial-gradient(2px 2px at 60% 95%, var(--dourado-palido), transparent),
+                radial-gradient(1px 1px at 95% 45%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 40% 80%, var(--dourado-claro), transparent);
+            background-size: 100% 100%;
+            opacity: 0.5;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Container Limit (Mobile First up to 700px) */
+        .container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        /* Typography Styles */
+        h1, h2, h3 { font-family: var(--font-title); font-weight: 400; line-height: 1.2; }
+        .text-gold { color: var(--dourado-claro); }
+        .text-silver { color: var(--prata); }
+        .text-italic { font-style: italic; }
+        .font-cinzel { font-family: var(--font-label); }
+
+        /* Animations */
+        @keyframes shimmer {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--dourado-principal)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px var(--dourado-claro)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--dourado-principal)); }
+        }
+        @keyframes orbit-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes orbit-spin-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(90deg, #b8792a, var(--dourado-claro), #c9933a, #b8792a);
+            background-size: 200% auto;
+            color: var(--bg-principal);
+            font-family: var(--font-label);
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 2px;
+            padding: 18px 44px;
+            border: none;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(201, 147, 58, 0.4);
+            animation: shimmer 4s linear infinite;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            margin: 30px auto 15px;
+            max-width: 400px;
+        }
+        .cta-btn:active { transform: scale(0.98); box-shadow: 0 0 10px rgba(201, 147, 58, 0.2); }
+
+        /* 1. Urgency Bar */
+        .urgency-bar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: linear-gradient(90deg, var(--rosa-vinho-dark), var(--rosa-vinho), var(--rosa-vinho-dark));
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+            text-align: center;
+            padding: 8px 10px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .urgency-bar span {
+            font-family: var(--font-label);
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--dourado-palido);
+            text-transform: uppercase;
+        }
+
+        /* 2. Hero Section */
+        .hero {
+            padding-top: 100px; /* space for fixed bar */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: radial-gradient(circle at center, rgba(15, 13, 42, 0.8) 0%, transparent 70%);
+        }
+        
+        .hero-orb {
+            position: relative;
+            width: 280px; height: 280px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-orb-ring {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 147, 58, 0.3);
+            border-top-color: rgba(201, 107, 122, 0.5); /* rosa semi */
+        }
+        .hero-orb-ring:nth-child(1) { animation: orbit-spin 20s linear infinite; width: 100%; height: 100%; }
+        .hero-orb-ring:nth-child(2) { animation: orbit-spin-reverse 15s linear infinite; width: 90%; height: 90%; top: 5%; left: 5%; }
+        .hero-orb-ring:nth-child(3) { animation: orbit-spin 25s linear infinite; width: 80%; height: 80%; top: 10%; left: 10%; }
+        
+        .hero-orb-center {
+            position: relative;
+            width: 60%; height: 60%;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(201, 147, 58, 0.4) 0%, rgba(10, 8, 32, 0.9) 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        .hero-tag {
+            font-family: var(--font-label);
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--dourado-principal);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 7vw, 50px);
+            font-weight: 300;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--prata);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .trust-badges span {
+            font-size: 11px;
+            color: var(--prata);
+        }
+
+        /* 3. Dores */
+        .dores { background: var(--bg-secundario-1); }
+        .dores-header { text-align: center; margin-bottom: 50px; }
+        .dores-header h2 { font-size: 32px; margin-bottom: 15px; }
+        .dores-header p { font-size: 16px; color: var(--prata); font-weight: 300; max-width: 500px; margin: 0 auto;}
+        
+        .pain-card {
+            background: var(--surface-card);
+            border-left: 3px solid var(--rosa-vinho);
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .pain-card:hover {
+            border-left-color: var(--dourado-principal);
+            transform: translateX(4px);
+        }
+        .pain-card span.emoji { font-size: 28px; line-height: 1; }
+        .pain-card p { font-style: italic; font-size: 16px; margin: 0; color: var(--creme); }
+        
+        .dores-conclusion {
+            background: rgba(201, 107, 122, 0.1);
+            border: 1px solid var(--rosa-vinho);
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+            font-family: var(--font-title);
+            font-style: italic;
+            font-size: 20px;
+            color: var(--creme);
+        }
+
+        /* 4. Apresentação do Produto */
+        .apresentacao { text-align: center; }
+        .apresentacao h2 { font-size: 32px; margin-bottom: 10px; }
+        .apresentacao > p { color: var(--prata); font-weight: 300; margin-bottom: 60px; }
+        
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 180px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .tarot-card {
+            width: 90px; height: 140px;
+            border: 1px solid var(--dourado-principal);
+            border-radius: 6px;
+            background: radial-gradient(circle at top right, #2a1b4d, #050510);
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            padding: 5px;
+            transform-origin: bottom center;
+        }
+        .tarot-card::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px inset rgba(201, 147, 58, 0.3);
+            border-radius: 3px;
+            pointer-events: none;
+        }
+        .tarot-card:nth-child(1) { transform: translateX(-110px) rotate(-8deg) translateY(10px); z-index: 1; }
+        .tarot-card:nth-child(2) { transform: translateX(-55px) rotate(-3deg) translateY(2px); z-index: 2; }
+        .tarot-card:nth-child(3) { transform: translateX(0) rotate(2deg) translateY(0); z-index: 3; }
+        .tarot-card:nth-child(4) { transform: translateX(55px) rotate(7deg) translateY(5px); z-index: 2; }
+        .tarot-card:nth-child(5) { transform: translateX(110px) rotate(11deg) translateY(15px); z-index: 1; }
+        
+        .tarot-card:hover {
+            transform: translateX(var(--tx, 0)) translateY(-16px) rotate(0deg) !important;
+            box-shadow: 0 0 25px rgba(201, 147, 58, 0.6);
+            z-index: 10;
+        }
+        .tarot-card:nth-child(1):hover { --tx: -110px; }
+        .tarot-card:nth-child(2):hover { --tx: -55px; }
+        .tarot-card:nth-child(3):hover { --tx: 0; }
+        .tarot-card:nth-child(4):hover { --tx: 55px; }
+        .tarot-card:nth-child(5):hover { --tx: 110px; }
+
+        .tarot-emoji { font-size: 36px; margin-bottom: 10px; }
+        .tarot-name { font-family: var(--font-label); font-size: 8px; color: var(--dourado-claro); text-transform: uppercase; letter-spacing: 1px; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            text-align: left;
+        }
+        @media (min-width: 480px) {
+            .features-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .feature-item {
+            background: var(--surface-card);
+            border: var(--border-gold-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+        .feature-item h4 { font-family: var(--font-body); font-weight: 400; font-size: 16px; color: var(--dourado-claro); margin-bottom: 5px; }
+        .feature-item p { font-size: 14px; color: var(--prata); margin: 0; }
+
+        /* 5. Como Funciona */
+        .como-funciona { background: var(--bg-secundario-2); }
+        .como-funciona h2 { text-align: center; font-size: 32px; margin-bottom: 50px; }
+        
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 40px; top: 20px; bottom: 20px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--dourado-principal), var(--rosa-vinho));
+        }
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .timeline-step:last-child { margin-bottom: 0; }
+        .step-number {
+            min-width: 42px; height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--dourado-principal), var(--rosa-vinho));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-label);
+            font-weight: 700;
+            color: var(--bg-principal);
+            font-size: 18px;
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(201, 147, 58, 0.3);
+        }
+        .step-content h3 { font-size: 20px; font-weight: 700; margin-bottom: 5px; margin-top: 5px; color: var(--creme); }
+        .step-content p { font-size: 15px; color: var(--prata); }
+
+        /* 6. O Que Você Recebe */
+        .entregaveis { background: var(--bg-secundario-1); }
+        .entregaveis-box {
+            border: var(--border-gold-medium);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: var(--surface-card);
+        }
+        .entregaveis-header {
+            background: rgba(201, 147, 58, 0.15);
+            padding: 20px;
+            text-align: center;
+            border-bottom: var(--border-gold-light);
+            font-family: var(--font-label);
+            color: var(--dourado-claro);
+            letter-spacing: 2px;
+            font-size: 15px;
+        }
+        .entregaveis-list { list-style: none; }
+        .entregaveis-item {
+            padding: 20px;
+            border-bottom: var(--border-gold-light);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
+        .entregaveis-item:last-child { border-bottom: none; }
+        .entregaveis-item:hover { background: rgba(201, 147, 58, 0.05); }
+        
+        .item-title { display: flex; align-items: center; gap: 10px; font-size: 16px; flex-wrap: wrap;}
+        .badge-principal {
+            font-size: 11px; font-family: var(--font-label);
+            background: var(--rosa-vinho); color: #fff;
+            padding: 3px 8px; border-radius: 2px; letter-spacing: 1px;
+        }
+        .badge-bonus {
+            font-size: 11px; font-family: var(--font-label);
+            background: rgba(201, 147, 58, 0.1); color: var(--dourado-claro);
+            border: 1px solid var(--dourado-principal);
+            padding: 2px 8px; border-radius: 2px; letter-spacing: 1px;
+        }
+
+        /* 7. Depoimentos */
+        .depoimentos h2 { text-align: center; font-size: 32px; margin-bottom: 50px; }
+        .depo-card {
+            background: var(--surface-card);
+            border: var(--border-gold-light);
+            border-radius: var(--border-radius);
+            padding: 35px 25px 25px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .quote-icon {
+            position: absolute;
+            top: 5px; left: 20px;
+            font-family: var(--font-title);
+            font-size: 60px;
+            line-height: 1;
+            color: rgba(201, 147, 58, 0.2);
+        }
+        .stars { color: var(--dourado-principal); margin-bottom: 15px; letter-spacing: 3px; font-size: 16px;}
+        .depo-card p {
+            font-style: italic;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            font-size: 16px;
+            color: var(--creme);
+        }
+        .depo-author { display: flex; align-items: center; gap: 15px; }
+        .avatar {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bg-secundario-2), var(--rosa-vinho));
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-title); font-size: 20px; color: #fff;
+        }
+        .author-info strong { display: block; font-size: 15px; font-weight: 400; color: var(--creme); }
+        .author-info span { font-size: 13px; color: var(--prata); }
+
+        /* 8. Oferta */
+        .oferta { background: radial-gradient(circle at center, rgba(201, 107, 122, 0.1) 0%, transparent 70%); text-align: center; }
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .cd-box {
+            background: rgba(45, 31, 94, 0.6);
+            border: 1px solid var(--dourado-principal);
+            border-radius: var(--border-radius);
+            padding: 12px 10px;
+            min-width: 70px;
+        }
+        .cd-number { font-family: var(--font-label); font-size: 28px; color: var(--dourado-claro); line-height: 1; }
+        .cd-label { font-size: 11px; color: var(--prata); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        .price-box {
+            background: var(--bg-principal);
+            border: var(--border-gold-medium);
+            border-radius: var(--border-radius);
+            padding: 50px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .pill-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--rosa-vinho), var(--rosa-vinho-dark));
+            color: #fff;
+            font-family: var(--font-label);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+        .price-old { color: var(--prata); text-decoration: line-through; font-size: 18px; margin-bottom: -5px; }
+        .price-main {
+            font-family: var(--font-title);
+            font-size: 72px;
+            font-weight: 300;
+            color: var(--dourado-claro);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .price-main sup { font-size: 24px; top: -1.2em; margin-right: 5px; }
+        .installments { color: var(--prata); font-size: 18px; margin-bottom: 30px; }
+        .installments b { color: #fff; font-weight: 400; }
+        
+        .checklist { list-style: none; text-align: left; margin-bottom: 40px; display: inline-block; }
+        .checklist li { margin-bottom: 12px; font-size: 15px; color: var(--creme); }
+        .checklist li::before { content: '✦'; color: var(--dourado-principal); margin-right: 12px; }
+
+        .secure-footer { font-size: 13px; color: var(--prata); margin-top: 20px; }
+
+        /* 9. Garantia */
+        .garantia { background: var(--bg-secundario-2); }
+        .garantia-flex {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            background: var(--surface-card);
+            border: var(--border-gold-light);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+        }
+        .garantia-icon { font-size: 40px; line-height: 1; }
+        .garantia-content h3 { font-family: var(--font-label); font-size: 20px; color: var(--dourado-claro); margin-bottom: 10px; letter-spacing: 1px; }
+        .garantia-content p { font-size: 15px; color: var(--prata); }
+
+        /* 10. FAQ */
+        .faq h2 { text-align: center; font-size: 32px; margin-bottom: 40px; }
+        .faq-item {
+            border-bottom: var(--border-gold-light);
+            margin-bottom: 10px;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            cursor: pointer;
+            font-family: var(--font-title);
+            font-size: 20px;
+            color: var(--creme);
+        }
+        .faq-icon {
+            color: var(--dourado-principal);
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-answer p {
+            padding-bottom: 20px;
+            font-size: 15px;
+            color: var(--prata);
+        }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-item.open .faq-answer { max-height: 200px; }
+
+        /* 11. CTA Final */
+        .cta-final {
+            background: radial-gradient(circle at center, rgba(74, 20, 140, 0.4) 0%, var(--bg-principal) 100%);
+            text-align: center;
+            padding: 100px 0;
+        }
+        .cta-final h2 { font-size: 32px; margin-bottom: 15px; }
+        .cta-final p { color: var(--prata); margin-bottom: 40px; font-size: 16px; }
+
+        /* 12. Footer */
+        footer {
+            border-top: 1px solid rgba(201, 147, 58, 0.1);
+            text-align: center;
+            padding: 50px 20px;
+            background: var(--bg-secundario-1);
+        }
+        footer p { font-size: 13px; color: rgba(168, 160, 184, 0.6); margin-bottom: 15px; }
+        .footer-links { font-size: 13px; color: rgba(168, 160, 184, 0.6); }
+
+        /* Media Queries for better layout on very small screens */
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 32px; }
+            .garantia-flex { flex-direction: column; text-align: center; }
+            .cards-container { transform: scale(0.85); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Barra de Urgência -->
+    <div class="urgency-bar">
+        <span>✦ OFERTA ESPECIAL — DIA DOS NAMORADOS — ATÉ 12 DE JUNHO ✦</span>
+    </div>
+
+    <!-- 2. Hero Section -->
+    <section class="hero fade-in">
+        <div class="container">
+            <div class="hero-orb">
+                <div class="hero-orb-ring"></div>
+                <div class="hero-orb-ring"></div>
+                <div class="hero-orb-ring"></div>
+                <div class="hero-orb-center">🔮</div>
+            </div>
+            
+            <span class="hero-tag">✦ Baralho Cigano Lenormand ✦</span>
+            
+            <h1>Seu coração sabe a resposta. <br><span class="text-gold text-italic">As cartas revelam o caminho.</span></h1>
+            
+            <p class="hero-subtitle">Leitura amorosa 100% personalizada gravada em vídeo e entregue diretamente no seu WhatsApp em até 24 horas.</p>
+            
+            <a href="https://pay.hotmart.com/H105947064I" class="cta-btn">✦ Quero Minha Leitura por R$ 37 ✦</a>
+            
+            <div class="trust-badges">
+                <span>🔒 Pagamento Seguro</span>
+                <span>|</span>
+                <span>📲 Entrega em 24h</span>
+                <span>|</span>
+                <span>🛡️ Garantia 7 Dias</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Seção de Dores -->
+    <section class="dores">
+        <div class="container fade-in">
+            <div class="dores-header">
+                <h2>O coração confuso tem um <span class="text-gold text-italic">peso imenso</span></h2>
+                <p>Se alguma dessas situações ressoa com você, a Leitura do Coração foi feita pra você.</p>
+            </div>
+
+            <div class="pain-card">
+                <span class="emoji">💔</span>
+                <p>"Ele some, reaparece e eu não sei o que pensar... fico num ciclo sem fim de esperança e decepção."</p>
+            </div>
+            <div class="pain-card">
+                <span class="emoji">🌀</span>
+                <p>"Eu sinto que gosto dele, mas tenho medo de me iludir e sair machucada de novo."</p>
+            </div>
+            <div class="pain-card">
+                <span class="emoji">🚪</span>
+                <p>"Estou num relacionamento que não avança... Não sei se fico esperando ou se é hora de ir embora."</p>
+            </div>
+            <div class="pain-card">
+                <span class="emoji">⚖️</span>
+                <p>"O coração manda fica, a razão manda vai. Não consigo tomar uma decisão e isso me esgota."</p>
+            </div>
+
+            <div class="dores-conclusion">
+                Se você se identificou com qualquer uma dessas situações... você não está sozinha — e existe uma resposta esperando por você.
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Apresentação do Produto -->
+    <section class="apresentacao">
+        <div class="container fade-in">
+            <h2>A <span class="text-gold text-italic">Leitura do Coração</span></h2>
+            <p>Diferente do Tarot tradicional, o Baralho Cigano é direto, reto e não esconde a verdade.</p>
+
+            <div class="cards-container">
+                <div class="tarot-card">
+                    <span class="tarot-emoji">❤️</span>
+                    <span class="tarot-name">O Coração</span>
+                </div>
+                <div class="tarot-card">
+                    <span class="tarot-emoji">💍</span>
+                    <span class="tarot-name">A União</span>
+                </div>
+                <div class="tarot-card">
+                    <span class="tarot-emoji">🌙</span>
+                    <span class="tarot-name">A Lua</span>
+                </div>
+                <div class="tarot-card">
+                    <span class="tarot-emoji">🌹</span>
+                    <span class="tarot-name">A Rosa</span>
+                </div>
+                <div class="tarot-card">
+                    <span class="tarot-emoji">⭐</span>
+                    <span class="tarot-name">A Estrela</span>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>🎯 Personalizada</h4>
+                    <p>cada leitura é única para sua pergunta específica</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ Rápida</h4>
+                    <p>recebe no WhatsApp em até 24 horas úteis</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💬 Prática</h4>
+                    <p>linguagem clara, direta, aplicável à vida real</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔒 Confidencial</h4>
+                    <p>sigilo total, sem julgamentos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Como Funciona -->
+    <section class="como-funciona">
+        <div class="container fade-in">
+            <h2>Como Funciona?</h2>
+            
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Você compra e acessa o formulário</h3>
+                        <p>Acesso imediato ao formulário após a compra.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>A leitura é gravada pra você</h3>
+                        <p>Vídeo de 10-12 min gravado com sua pergunta específica.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Recebe no seu WhatsApp em 24h</h3>
+                        <p>Entrega direta no celular.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. O Que Você Recebe -->
+    <section class="entregaveis">
+        <div class="container fade-in">
+            <div class="entregaveis-box">
+                <div class="entregaveis-header">✦ Incluído na sua compra</div>
+                <ul class="entregaveis-list">
+                    <li class="entregaveis-item">
+                        <div class="item-title">
+                            🎥 Vídeo de Leitura Personalizada (10-12 min) <span class="badge-principal">PRINCIPAL</span>
+                        </div>
+                    </li>
+                    <li class="entregaveis-item">
+                        <div class="item-title">
+                            📄 PDF Exclusivo — "3 coisas que o Baralho Cigano NÃO resolve" <span class="badge-bonus">BÔNUS</span>
+                        </div>
+                    </li>
+                    <li class="entregaveis-item">
+                        <div class="item-title">
+                            🎧 Áudio — "O que fazer após a leitura" (5 min) <span class="badge-bonus">BÔNUS</span>
+                        </div>
+                    </li>
+                    <li class="entregaveis-item">
+                        <div class="item-title">
+                            🧘 Meditação Guiada — "Respiração para clareza amorosa" (4 min) <span class="badge-bonus">BÔNUS</span>
+                        </div>
+                    </li>
+                    <li class="entregaveis-item">
+                        <div class="item-title">
+                            🎁 Cupom CORACAO40 — R$ 40 OFF na consulta ao vivo <span class="badge-bonus">BÔNUS</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Depoimentos -->
+    <section class="depoimentos">
+        <div class="container fade-in">
+            <h2>Histórias que <span class="text-gold text-italic">tocam o coração</span></h2>
+            
+            <div class="depo-grid">
+                <div class="depo-card">
+                    <div class="quote-icon">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p>Recebi minha leitura em menos de 20 horas. Ela falou de detalhes sobre a minha situação que eu nunca tinha contado pra ninguém. Fiquei completamente arrepiada. Recomendo de olhos fechados.</p>
+                    <div class="depo-author">
+                        <div class="avatar">C</div>
+                        <div class="author-info">
+                            <strong>Camila S.</strong>
+                            <span>São Paulo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="depo-card">
+                    <div class="quote-icon">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p>Eu tava completamente perdida sobre o que fazer com esse relacionamento. A leitura me deu a clareza que eu precisava pra tomar minha decisão. Me sinto muito mais leve agora.</p>
+                    <div class="depo-author">
+                        <div class="avatar">F</div>
+                        <div class="author-info">
+                            <strong>Fernanda R.</strong>
+                            <span>Recife</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="depo-card">
+                    <div class="quote-icon">"</div>
+                    <div class="stars">★★★★★</div>
+                    <p>Achei que ia ser uma coisa genérica igual a tudo que vejo por aí. Me surpreendi muito. Foi personalizada de verdade, com as cartas abertas no vídeo e explicação de cada uma. Valeu cada centavo.</p>
+                    <div class="depo-author">
+                        <div class="avatar">J</div>
+                        <div class="author-info">
+                            <strong>Juliana M.</strong>
+                            <span>Belo Horizonte</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Preço e Oferta -->
+    <section class="oferta" id="oferta">
+        <div class="container fade-in">
+            <div class="countdown" id="countdown" style="display: none;">
+                <div class="cd-box"><div class="cd-number" id="cd-days">00</div><div class="cd-label">Dias</div></div>
+                <div class="cd-box"><div class="cd-number" id="cd-hours">00</div><div class="cd-label">Horas</div></div>
+                <div class="cd-box"><div class="cd-number" id="cd-minutes">00</div><div class="cd-label">Min</div></div>
+                <div class="cd-box"><div class="cd-number" id="cd-seconds">00</div><div class="cd-label">Seg</div></div>
+            </div>
+
+            <div class="price-box">
+                <span class="pill-badge">Oferta de Lançamento</span>
+                <div class="price-old">R$ 97,00</div>
+                <div class="price-main"><sup>R$</sup>37</div>
+                <div class="installments">ou <b>5x de R$ 8,19</b> sem juros</div>
+                
+                <ul class="checklist">
+                    <li>Vídeo 100% Personalizado</li>
+                    <li>Entrega via WhatsApp</li>
+                    <li>Áudio de Pós-Leitura</li>
+                    <li>PDF Exclusivo</li>
+                    <li>Meditação Guiada</li>
+                    <li>Garantia Incondicional</li>
+                </ul>
+
+                <a href="https://pay.hotmart.com/H105947064I" class="cta-btn">✦ Quero Minha Leitura Agora ✦</a>
+                <div class="secure-footer">🔒 Pagamento 100% seguro | Pix, Cartão, Boleto | Acesso imediato</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Garantia -->
+    <section class="garantia">
+        <div class="container fade-in">
+            <div class="garantia-flex">
+                <div class="garantia-icon">🛡️</div>
+                <div class="garantia-content">
+                    <h3 class="font-cinzel">Garantia Incondicional — 7 Dias</h3>
+                    <p>Se por qualquer motivo você não ficar satisfeita com sua leitura, devolvemos 100% do seu dinheiro em até 7 dias. Sem perguntas, sem burocracia, sem drama. O risco é todo nosso.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FAQ -->
+    <section class="faq">
+        <div class="container fade-in">
+            <h2>Perguntas Frequentes</h2>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Preciso entender de Baralho Cigano para receber a leitura?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Não. Você só precisa fazer sua pergunta. A interpretação é feita para você.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Como recebo o vídeo?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Diretamente no seu WhatsApp em até 24 horas úteis após preencher o formulário.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>A leitura é realmente personalizada?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim. Cada vídeo é gravado especificamente para você com sua pergunta e situação.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>E se eu não gostar?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>7 dias de garantia total. Solicite reembolso pelo Hotmart, dinheiro devolvido na íntegra.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Funciona para qualquer situação amorosa?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim: crush, namoro, relacionamento estagnado, término, reconciliação, qualquer situação.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Posso parcelar?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, em até 5x de R$ 8,19 sem juros no cartão. Ou R$ 37 à vista no Pix.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. CTA Final -->
+    <section class="cta-final">
+        <div class="container fade-in">
+            <h2>Não deixe a confusão amorosa te paralisar por <span class="text-gold text-italic">mais um único dia</span></h2>
+            <p>Seu vídeo estará no WhatsApp em até 24 horas. A clareza que você precisa está a um clique.</p>
+            <a href="https://pay.hotmart.com/H105947064I" class="cta-btn">✦ Quero Minha Leitura por R$ 37 ✦</a>
+            <div class="trust-badges">
+                <span>🔒 Pagamento Seguro</span>
+                <span>|</span>
+                <span>📲 Entrega em 24h</span>
+                <span>|</span>
+                <span>🛡️ Garantia 7 Dias</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2026 Leitura do Coração · Todos os direitos reservados · Produto digital entregue via Hotmart</p>
+            <div class="footer-links">
+                Política de Privacidade · Termos de Uso · Suporte
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Countdown
+        const targetDate = new Date('2026-06-12T23:59:00').getTime();
+        const countdownEl = document.getElementById('countdown');
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance > 0) {
+                countdownEl.style.display = 'flex';
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('cd-days').innerText = days.toString().padStart(2, '0');
+                document.getElementById('cd-hours').innerText = hours.toString().padStart(2, '0');
+                document.getElementById('cd-minutes').innerText = minutes.toString().padStart(2, '0');
+                document.getElementById('cd-seconds').innerText = seconds.toString().padStart(2, '0');
+            } else {
+                countdownEl.style.display = 'none';
+            }
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 2. FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isOpen = item.classList.contains('open');
+                faqItems.forEach(el => el.classList.remove('open'));
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // 3. Fade-in Observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
