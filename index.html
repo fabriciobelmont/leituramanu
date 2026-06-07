@@ -1,663 +1,506 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Leitura do Coração | Baralho Cigano Personalizado</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Leitura Amorosa Personalizada pelo Baralho Cigano Lenormand. Vídeo exclusivo no WhatsApp em 24h.">
+    <title>Leitura Amorosa Personalizada — Clareza em 24h</title>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Lato:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                        cinzel: ['Cinzel', 'serif']
-                    },
-                    colors: {
-                        app: {
-                            bg: '#050510',
-                            bgSec1: '#0a0820',
-                            bgSec2: '#0f0d2a',
-                            gold: '#c9933a',
-                            goldLight: '#e8b96a',
-                            goldPale: '#f5dfa0',
-                            wine: '#c96b7a',
-                            wineDark: '#8b2252',
-                            silver: '#a8a0b8',
-                            cream: '#f5f0e8',
-                        }
-                    },
-                    animation: {
-                        'spin-slow': 'spin 20s linear infinite',
-                        'spin-reverse-slow': 'spin 15s linear infinite reverse',
-                        'spin-slower': 'spin 25s linear infinite',
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Lenis (smooth scroll) -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <!-- SplitType -->
+    <script src="https://unpkg.com/split-type"></script>
 
-    <style type="text/tailwindcss">
-        @layer utilities {
-            /* Shadcn/UI Glass Panel styling */
-            .glass-panel {
-                @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.4)];
-            }
-            .text-glow {
-                text-shadow: 0 0 20px rgba(232, 185, 106, 0.4);
-            }
+    <style>
+        :root {
+            --bg:           #030008;
+            --glow-roxo:    #6e45e2;
+            --glow-rosa:    #ff0080;
+            --dourado:      #D4A843;
+            --dourado-claro:#F0C96B;
+            --texto:        #ffffff;
+            --texto-suave:  rgba(255, 255, 255, 0.75);
+            --surface:      rgba(255, 255, 255, 0.04);
+            --surface-hover:rgba(255, 255, 255, 0.08);
+            --border:       rgba(255, 255, 255, 0.1);
+            --verde-ok:     #4CAF78;
+            --vermelho-nao: #E05555;
+            --radius:       20px;
+            --transition:   cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Basic Resets & Font Features */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-feature-settings: "cv11", "ss01";
+            background: var(--bg);
+            color: var(--texto);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            background-color: theme('colors.app.bg');
         }
 
-        /* SVG Noise Texture Background */
-        .bg-noise {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -10;
-            opacity: 0.15;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Background Nebula */
+        .nebula {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #030008 100%);
+            z-index: -1;
+        }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(90px);
+            opacity: 0.35; pointer-events: none;
         }
 
-        /* Radial Golden Glow Top */
-        .bg-glow {
-            position: absolute;
-            top: -200px; left: 50%;
-            transform: translateX(-50%);
-            width: 800px; height: 800px;
-            background: radial-gradient(circle, rgba(201,147,58,0.15) 0%, rgba(5,5,16,0) 70%);
-            z-index: -5;
-            pointer-events: none;
-        }
+        img { width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; object-fit: contain; }
 
-        /* Framer Motion Style Scroll Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            transition-delay: calc(var(--delay, 0) * 100ms);
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* CTA Shimmer Gradient */
-        @keyframes shimmer {
-            0% { background-position: 200% center; }
-            100% { background-position: -200% center; }
-        }
-        .btn-shimmer {
-            background: linear-gradient(90deg, theme('colors.app.gold'), theme('colors.app.goldLight'), theme('colors.app.gold'), theme('colors.app.gold'));
-            background-size: 200% auto;
-            animation: shimmer 4s linear infinite;
-        }
-
-        /* Pulsing Glow */
-        @keyframes pulse-glow {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px theme('colors.app.gold')); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px theme('colors.app.goldLight')); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px theme('colors.app.gold')); }
-        }
-        .animate-pulse-glow { animation: pulse-glow 3s infinite ease-in-out; }
-
-        /* Custom Details/Summary FAQ */
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] .faq-icon { transform: rotate(45deg); }
-        details .faq-content { 
-            display: grid; 
-            grid-template-rows: 0fr; 
-            transition: grid-template-rows 0.3s ease-out; 
-        }
-        details[open] .faq-content { grid-template-rows: 1fr; }
-        details .faq-inner { overflow: hidden; }
-
-        /* Tarot Cards Hover Group */
-        .tarot-group:hover .tarot-card { opacity: 0.5; }
-        .tarot-group .tarot-card:hover { 
-            opacity: 1; 
-            transform: translateX(var(--tx, 0)) translateY(-16px) rotate(0deg) scale(1.05) !important;
-            box-shadow: 0 0 30px rgba(201, 147, 58, 0.4);
-            z-index: 20;
-            border-color: theme('colors.app.goldLight');
+        /* Tipografia Refinada */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        h1 {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-style: italic;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
         }
         
-        .tarot-card { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: bottom center; }
-        .tc-1 { transform: translateX(-90px) rotate(-8deg) translateY(10px); z-index: 1; --tx: -90px; }
-        .tc-2 { transform: translateX(-45px) rotate(-3deg) translateY(2px); z-index: 2; --tx: -45px; }
-        .tc-3 { transform: translateX(0) rotate(2deg) translateY(0); z-index: 3; --tx: 0; }
-        .tc-4 { transform: translateX(45px) rotate(7deg) translateY(5px); z-index: 2; --tx: 45px; }
-        .tc-5 { transform: translateX(90px) rotate(11deg) translateY(15px); z-index: 1; --tx: 90px; }
+        h2 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 32px;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        p { font-size: clamp(1rem, 2vw, 1.1rem); margin-bottom: 16px; }
+
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff, #c2a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .highlight-gold {
+            background: linear-gradient(to right, #F0C96B, #D4A843);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(212, 168, 67, 0.4);
+            font-weight: 900;
+        }
+
+        .text-dourado { color: var(--dourado); }
+        .text-dourado-claro { color: var(--dourado-claro); }
+        .italic-font { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+        /* Layout & Containers */
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        
+        section { padding-block: 60px; position: relative; overflow: hidden; }
+        @media (min-width: 768px) { section { padding-block: 100px; } }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s var(--transition), background 0.4s var(--transition);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            width: 100%;
+        }
+        @media (min-width: 768px) { .glass-card { padding: 40px; } }
+        .glass-card:hover { background: var(--surface-hover); transform: translateY(-4px); }
+
+        /* Botões */
+        .cta-glow {
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            padding: 16px 20px; background: #ffffff; color: #000000;
+            border-radius: 100px; text-decoration: none;
+            font-family: 'Lato', sans-serif; font-weight: 800; font-size: 1rem;
+            transition: 0.3s ease; box-shadow: 0 0 25px rgba(255,255,255,0.15);
+            width: 100%; max-width: 340px; min-height: 56px; border: none; cursor: pointer;
+        }
+        .cta-glow:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,255,255,0.4); }
+        
+        .cta-primary {
+            background: linear-gradient(135deg, var(--glow-rosa), var(--glow-roxo));
+            color: white; box-shadow: 0 0 30px rgba(255,0,128,0.25);
+            font-size: 1.1rem; padding: 20px 32px; max-width: 400px; margin: 0 auto;
+            animation: pulse-cta 3s infinite;
+        }
+        .cta-primary:hover { box-shadow: 0 0 50px rgba(255,0,128,0.5); animation: none; }
+        @keyframes pulse-cta {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,0,128,0.3); }
+            50%      { box-shadow: 0 0 0 12px rgba(255,0,128,0); }
+        }
+
+        /* Hero Specific */
+        .hero-headline {
+            font-size: clamp(34px, 7vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 32px auto;
+            padding-top: 40px;
+        }
+        @media (min-width: 1024px) { .hero-headline { line-height: 1.05; } }
+        .hero-break-mobile { display: block; }
+        .hero-subheadline {
+            font-size: clamp(18px, 4vw, 22px);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 24px auto;
+            text-align: center;
+            color: var(--texto-suave);
+        }
+
+        .selos-confianca { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 24px; }
+        .selo-item { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: #ffffff; font-weight: 600; }
+        svg.icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .hero-wrapper { display: flex; flex-direction: column; align-items: center; }
+        .hero-mockup-container { width: 100%; max-width: 90%; margin: 0 auto 32px auto; order: 2; }
+        .hero-text-block-1 { order: 1; width: 100%; text-align: center; }
+        .hero-text-block-2 { order: 3; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        
+        @media (min-width: 1024px) {
+            .hero-wrapper { display: grid; grid-template-columns: 55% 45%; gap: 40px; align-items: center; text-align: left; }
+            .hero-headline, .hero-subheadline { text-align: left; margin-left: 0; }
+            .hero-text-block-1 { order: unset; }
+            .hero-text-block-2 { order: unset; align-items: flex-start; }
+            .selos-confianca { justify-content: flex-start; }
+            .hero-mockup-container { order: unset; max-width: 100%; margin: 0; }
+            .hero-break-mobile { display: inline; }
+        }
+
+        /* Grids Genéricos */
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 24px; } }
+        
+        .grid-3 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+        /* Oferta / Stack */
+        .stack-list { text-align: left; margin: 32px auto; max-width: 600px; width: 100%; }
+        .stack-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        @media (min-width: 768px) { .stack-item { font-size: 1.05rem; padding: 20px 0; } }
+        .stack-item:last-child { border-bottom: none; }
+        .stack-title { font-weight: 600; color: var(--texto); padding-right: 12px; }
+
+        .bonus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; width: 100%; }
+        .bonus-item img { box-shadow: 0 8px 16px rgba(0,0,0,0.4); border: 1px solid rgba(212, 168, 67, 0.15); margin-bottom: 8px; width: 100%; }
+
+        /* Prova Social */
+        .wpp-wrapper {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 16px; padding-bottom: 24px; scrollbar-width: none;
+            -ms-overflow-style: none; padding-inline: 20px; margin-inline: -20px;
+        }
+        .wpp-wrapper::-webkit-scrollbar { display: none; }
+        .wpp-print {
+            flex: 0 0 85%; scroll-snap-align: center; border-radius: 12px; border: 1px solid var(--border);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); object-fit: contain; width: 100%; height: auto;
+        }
+        @media (min-width: 768px) {
+            .wpp-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; overflow-x: visible; padding-inline: 0; margin-inline: 0; }
+            .wpp-print { flex: auto; transition: transform 0.3s; }
+            .wpp-print:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.2); }
+        }
+
+        .bg-img-section { background-size: cover; background-position: center; position: relative; }
+        .bg-img-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,0,8,0.88); z-index: 0; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-pergunta { width: 100%; text-align: left; padding: 20px 0; background: none; border: none; color: var(--texto); font-size: 1.05rem; font-weight: 600; font-family: 'Lato', sans-serif; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-resposta { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: var(--texto-suave); }
+        .faq-item.open .faq-resposta { max-height: 300px; padding-bottom: 20px; }
+        .faq-chevron { transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
+        .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--dourado); }
     </style>
 </head>
-<body class="text-app-cream font-sans min-h-screen relative selection:bg-app-gold/30">
+<body>
 
-    <!-- Global Background Elements -->
-    <div class="bg-noise"></div>
-    <div class="bg-glow"></div>
-
-    <!-- 1. Urgency Bar -->
-    <div class="fixed top-0 left-0 w-full z-50 overflow-hidden shadow-lg border-b border-app-gold/20" style="background: linear-gradient(90deg, #8b2252, #c96b7a, #8b2252); background-size: 200%; animation: shimmer 3s linear infinite;">
-        <div class="py-2 text-center">
-            <span class="font-cinzel text-[11px] tracking-[3px] text-app-goldPale uppercase">✦ OFERTA ESPECIAL — DIA DOS NAMORADOS — ATÉ 12 DE JUNHO ✦</span>
-        </div>
+    <div class="nebula">
+        <div class="orb" style="width: 50vw; height: 50vw; background: var(--glow-roxo); top: -10%; right: -10%;"></div>
+        <div class="orb" style="width: 40vw; height: 40vw; background: var(--glow-rosa); bottom: -10%; left: -10%;"></div>
     </div>
 
-    <!-- Main Container -->
-    <main class="w-full max-w-[700px] mx-auto px-5 pt-28 pb-12 overflow-hidden">
-
-        <!-- 2. Hero Section -->
-        <section class="py-12 flex flex-col items-center text-center relative animate-on-scroll" style="--delay: 0">
-            <!-- Animated Orb -->
-            <div class="relative w-[280px] h-[280px] mb-10 flex items-center justify-center">
-                <div class="absolute inset-0 rounded-full border border-app-gold/20 border-t-app-wine/50 animate-spin-slow"></div>
-                <div class="absolute inset-[5%] rounded-full border border-app-gold/20 border-l-app-wine/40 animate-spin-reverse-slow"></div>
-                <div class="absolute inset-[10%] rounded-full border border-app-gold/30 border-r-app-wine/30 animate-spin-slower"></div>
-                
-                <div class="w-[60%] h-[60%] rounded-full flex items-center justify-center text-6xl animate-pulse-glow" style="background: radial-gradient(circle at center, rgba(201, 147, 58, 0.2), rgba(10, 8, 32, 0.8));">
-                    🔮
-                </div>
-            </div>
-
-            <span class="font-cinzel text-[11px] tracking-[4px] text-app-gold uppercase mb-6 inline-block">✦ Baralho Cigano Lenormand ✦</span>
+    <!-- SEÇÃO 1: HERO -->
+    <section id="hero" style="padding-top: 20px;">
+        <div class="container hero-wrapper">
             
-            <h1 class="font-serif font-light text-4xl sm:text-5xl leading-tight mb-6">
-                Seu coração sabe a resposta.<br>
-                <span class="text-app-goldLight italic text-glow">As cartas revelam o caminho.</span>
-            </h1>
-
-            <p class="text-app-silver text-base font-light mb-10 max-w-lg leading-relaxed">
-                Leitura amorosa 100% personalizada gravada em vídeo e entregue diretamente no seu WhatsApp em até 24 horas.
-            </p>
-
-            <a href="https://pay.hotmart.com/H105947064I" class="btn-shimmer text-[#050510] font-cinzel font-bold text-base tracking-[2px] py-[18px] px-11 rounded-lg shadow-[0_0_20px_rgba(201,147,58,0.3)] hover:shadow-[0_0_30px_rgba(201,147,58,0.6)] hover:scale-[1.02] transition-all duration-300 w-full max-w-[400px]">
-                ✦ QUERO MINHA LEITURA POR R$ 37 ✦
-            </a>
-
-            <div class="flex flex-wrap justify-center gap-4 mt-6 text-xs text-app-silver opacity-80">
-                <span class="flex items-center gap-1">🔒 Pagamento Seguro</span>
-                <span>|</span>
-                <span class="flex items-center gap-1">📲 Entrega em 24h</span>
-                <span>|</span>
-                <span class="flex items-center gap-1">🛡️ Garantia 7 Dias</span>
+            <div class="hero-text-block-1">
+                <h1 class="hero-headline text-gradient">
+                    Pare de imaginar cenários. <span class="hero-break-mobile">Descubra a <span class="highlight-gold">verdade</span> sobre o seu relacionamento em até <span class="highlight-gold">24 horas</span>.</span>
+                </h1>
             </div>
-        </section>
-
-        <!-- 3. Seção de Dores -->
-        <section class="py-16">
-            <div class="text-center mb-12 animate-on-scroll" style="--delay: 1">
-                <h2 class="font-serif text-3xl mb-4">O coração confuso tem um <span class="text-app-goldLight italic text-glow">peso imenso</span></h2>
-                <p class="text-app-silver font-light">Se alguma dessas situações ressoa com você, a Leitura do Coração foi feita pra você.</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="glass-panel border-l-4 border-l-app-wine p-6 flex gap-4 items-start hover:border-l-app-gold hover:translate-x-1 transition-all duration-300 animate-on-scroll" style="--delay: 2">
-                    <span class="text-2xl leading-none">💔</span>
-                    <p class="italic text-app-cream text-[15px] leading-relaxed">"Ele some, reaparece e eu não sei o que pensar... fico num ciclo sem fim de esperança e decepção."</p>
-                </div>
-                <div class="glass-panel border-l-4 border-l-app-wine p-6 flex gap-4 items-start hover:border-l-app-gold hover:translate-x-1 transition-all duration-300 animate-on-scroll" style="--delay: 3">
-                    <span class="text-2xl leading-none">🌀</span>
-                    <p class="italic text-app-cream text-[15px] leading-relaxed">"Eu sinto que gosto dele, mas tenho medo de me iludir e sair machucada de novo."</p>
-                </div>
-                <div class="glass-panel border-l-4 border-l-app-wine p-6 flex gap-4 items-start hover:border-l-app-gold hover:translate-x-1 transition-all duration-300 animate-on-scroll" style="--delay: 4">
-                    <span class="text-2xl leading-none">🚪</span>
-                    <p class="italic text-app-cream text-[15px] leading-relaxed">"Estou num relacionamento que não avança... Não sei se fico esperando ou se é hora de ir embora."</p>
-                </div>
-                <div class="glass-panel border-l-4 border-l-app-wine p-6 flex gap-4 items-start hover:border-l-app-gold hover:translate-x-1 transition-all duration-300 animate-on-scroll" style="--delay: 5">
-                    <span class="text-2xl leading-none">⚖️</span>
-                    <p class="italic text-app-cream text-[15px] leading-relaxed">"O coração manda fica, a razão manda vai. Não consigo tomar uma decisão e isso me esgota."</p>
-                </div>
-            </div>
-
-            <div class="mt-10 p-6 glass-panel border border-app-wine/50 text-center animate-on-scroll" style="background: rgba(201, 107, 122, 0.05); --delay: 6">
-                <p class="font-serif italic text-xl text-app-cream">Se você se identificou com qualquer uma dessas situações... você não está sozinha — e existe uma resposta esperando por você.</p>
-            </div>
-        </section>
-
-        <!-- 4. Apresentação do Produto -->
-        <section class="py-16 text-center">
-            <div class="animate-on-scroll" style="--delay: 1">
-                <h2 class="font-serif text-3xl mb-4">A <span class="text-app-goldLight italic text-glow">Leitura do Coração</span></h2>
-                <p class="text-app-silver font-light mb-16">Diferente do Tarot tradicional, o Baralho Cigano é direto, reto e não esconde a verdade.</p>
-            </div>
-
-            <!-- Cartas Interativas -->
-            <div class="relative h-[180px] mb-20 flex justify-center items-center tarot-group animate-on-scroll" style="--delay: 2">
-                <div class="tarot-card tc-1 absolute w-[90px] h-[140px] border border-app-gold/50 rounded-md p-1 shadow-2xl" style="background: radial-gradient(circle at top right, #2a1b4d, #050510);">
-                    <div class="w-full h-full border border-app-gold/30 rounded flex flex-col items-center justify-center">
-                        <span class="text-3xl mb-2 drop-shadow-md">❤️</span>
-                        <span class="font-cinzel text-[7px] text-app-goldLight uppercase tracking-widest">O Coração</span>
-                    </div>
-                </div>
-                <div class="tarot-card tc-2 absolute w-[90px] h-[140px] border border-app-gold/50 rounded-md p-1 shadow-2xl" style="background: radial-gradient(circle at top right, #2a1b4d, #050510);">
-                    <div class="w-full h-full border border-app-gold/30 rounded flex flex-col items-center justify-center">
-                        <span class="text-3xl mb-2 drop-shadow-md">💍</span>
-                        <span class="font-cinzel text-[7px] text-app-goldLight uppercase tracking-widest">A União</span>
-                    </div>
-                </div>
-                <div class="tarot-card tc-3 absolute w-[90px] h-[140px] border border-app-gold/50 rounded-md p-1 shadow-2xl" style="background: radial-gradient(circle at top right, #2a1b4d, #050510);">
-                    <div class="w-full h-full border border-app-gold/30 rounded flex flex-col items-center justify-center">
-                        <span class="text-3xl mb-2 drop-shadow-md">🌙</span>
-                        <span class="font-cinzel text-[7px] text-app-goldLight uppercase tracking-widest">A Lua</span>
-                    </div>
-                </div>
-                <div class="tarot-card tc-4 absolute w-[90px] h-[140px] border border-app-gold/50 rounded-md p-1 shadow-2xl" style="background: radial-gradient(circle at top right, #2a1b4d, #050510);">
-                    <div class="w-full h-full border border-app-gold/30 rounded flex flex-col items-center justify-center">
-                        <span class="text-3xl mb-2 drop-shadow-md">🌹</span>
-                        <span class="font-cinzel text-[7px] text-app-goldLight uppercase tracking-widest">A Rosa</span>
-                    </div>
-                </div>
-                <div class="tarot-card tc-5 absolute w-[90px] h-[140px] border border-app-gold/50 rounded-md p-1 shadow-2xl" style="background: radial-gradient(circle at top right, #2a1b4d, #050510);">
-                    <div class="w-full h-full border border-app-gold/30 rounded flex flex-col items-center justify-center">
-                        <span class="text-3xl mb-2 drop-shadow-md">⭐</span>
-                        <span class="font-cinzel text-[7px] text-app-goldLight uppercase tracking-widest">A Estrela</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-                <div class="glass-panel p-5 hover:bg-white/5 transition-colors duration-300 animate-on-scroll" style="--delay: 3">
-                    <h4 class="text-app-goldLight font-medium mb-1 flex items-center gap-2"><span class="text-lg">🎯</span> Personalizada</h4>
-                    <p class="text-app-silver text-sm">cada leitura é única para sua pergunta específica</p>
-                </div>
-                <div class="glass-panel p-5 hover:bg-white/5 transition-colors duration-300 animate-on-scroll" style="--delay: 4">
-                    <h4 class="text-app-goldLight font-medium mb-1 flex items-center gap-2"><span class="text-lg">⚡</span> Rápida</h4>
-                    <p class="text-app-silver text-sm">recebe no WhatsApp em até 24 horas úteis</p>
-                </div>
-                <div class="glass-panel p-5 hover:bg-white/5 transition-colors duration-300 animate-on-scroll" style="--delay: 5">
-                    <h4 class="text-app-goldLight font-medium mb-1 flex items-center gap-2"><span class="text-lg">💬</span> Prática</h4>
-                    <p class="text-app-silver text-sm">linguagem clara, direta, aplicável à vida real</p>
-                </div>
-                <div class="glass-panel p-5 hover:bg-white/5 transition-colors duration-300 animate-on-scroll" style="--delay: 6">
-                    <h4 class="text-app-goldLight font-medium mb-1 flex items-center gap-2"><span class="text-lg">🔒</span> Confidencial</h4>
-                    <p class="text-app-silver text-sm">sigilo total, sem julgamentos</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Como Funciona -->
-        <section class="py-16">
-            <h2 class="font-serif text-3xl text-center mb-12 animate-on-scroll" style="--delay: 1">Como Funciona?</h2>
             
-            <div class="relative pl-6 max-w-md mx-auto">
-                <!-- Line -->
-                <div class="absolute left-[38px] top-6 bottom-6 w-px bg-gradient-to-b from-app-gold to-app-wine animate-on-scroll opacity-30" style="--delay: 2"></div>
-                
-                <div class="flex gap-6 items-start mb-10 relative animate-on-scroll" style="--delay: 3">
-                    <div class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-app-gold to-app-wine flex items-center justify-center font-cinzel font-bold text-app-bg text-lg shadow-[0_0_15px_rgba(201,147,58,0.4)] z-10">1</div>
-                    <div class="pt-2">
-                        <h3 class="font-serif font-bold text-xl mb-1 text-app-cream">Você compra e acessa o formulário</h3>
-                        <p class="text-app-silver text-[15px]">Acesso imediato ao formulário após a compra.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start mb-10 relative animate-on-scroll" style="--delay: 4">
-                    <div class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-app-gold to-app-wine flex items-center justify-center font-cinzel font-bold text-app-bg text-lg shadow-[0_0_15px_rgba(201,147,58,0.4)] z-10">2</div>
-                    <div class="pt-2">
-                        <h3 class="font-serif font-bold text-xl mb-1 text-app-cream">A leitura é gravada pra você</h3>
-                        <p class="text-app-silver text-[15px]">Vídeo de 10-12 min gravado com sua pergunta específica.</p>
-                    </div>
-                </div>
-                <div class="flex gap-6 items-start relative animate-on-scroll" style="--delay: 5">
-                    <div class="w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-app-gold to-app-wine flex items-center justify-center font-cinzel font-bold text-app-bg text-lg shadow-[0_0_15px_rgba(201,147,58,0.4)] z-10">3</div>
-                    <div class="pt-2">
-                        <h3 class="font-serif font-bold text-xl mb-1 text-app-cream">Recebe no seu WhatsApp em 24h</h3>
-                        <p class="text-app-silver text-[15px]">Entrega direta no celular em até 1 dia útil.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. O Que Você Recebe -->
-        <section class="py-16">
-            <div class="glass-panel overflow-hidden animate-on-scroll" style="--delay: 1">
-                <div class="bg-app-gold/10 py-5 text-center border-b border-app-gold/20 font-cinzel text-app-goldLight tracking-[2px] text-sm">
-                    ✦ Incluído na sua compra
-                </div>
-                <div class="divide-y divide-app-gold/10">
-                    <div class="p-5 flex flex-wrap items-center gap-3 hover:bg-app-gold/5 transition-colors duration-300">
-                        <span class="text-lg">🎥</span>
-                        <span class="text-[15px] flex-1">Vídeo de Leitura Personalizada (10-12 min)</span>
-                        <span class="font-cinzel text-[10px] bg-app-wine text-white px-2 py-1 rounded tracking-wider">PRINCIPAL</span>
-                    </div>
-                    <div class="p-5 flex flex-wrap items-center gap-3 hover:bg-app-gold/5 transition-colors duration-300">
-                        <span class="text-lg">📄</span>
-                        <span class="text-[15px] flex-1 text-app-silver">PDF Exclusivo — "3 coisas que o Baralho NÃO resolve"</span>
-                        <span class="font-cinzel text-[10px] border border-app-gold text-app-goldLight bg-app-gold/10 px-2 py-1 rounded tracking-wider">BÔNUS</span>
-                    </div>
-                    <div class="p-5 flex flex-wrap items-center gap-3 hover:bg-app-gold/5 transition-colors duration-300">
-                        <span class="text-lg">🎧</span>
-                        <span class="text-[15px] flex-1 text-app-silver">Áudio — "O que fazer após a leitura" (5 min)</span>
-                        <span class="font-cinzel text-[10px] border border-app-gold text-app-goldLight bg-app-gold/10 px-2 py-1 rounded tracking-wider">BÔNUS</span>
-                    </div>
-                    <div class="p-5 flex flex-wrap items-center gap-3 hover:bg-app-gold/5 transition-colors duration-300">
-                        <span class="text-lg">🧘</span>
-                        <span class="text-[15px] flex-1 text-app-silver">Meditação Guiada — "Clareza amorosa" (4 min)</span>
-                        <span class="font-cinzel text-[10px] border border-app-gold text-app-goldLight bg-app-gold/10 px-2 py-1 rounded tracking-wider">BÔNUS</span>
-                    </div>
-                    <div class="p-5 flex flex-wrap items-center gap-3 hover:bg-app-gold/5 transition-colors duration-300">
-                        <span class="text-lg">🎁</span>
-                        <span class="text-[15px] flex-1 text-app-silver">Cupom CORACAO40 — R$ 40 OFF consulta ao vivo</span>
-                        <span class="font-cinzel text-[10px] border border-app-gold text-app-goldLight bg-app-gold/10 px-2 py-1 rounded tracking-wider">BÔNUS</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Depoimentos -->
-        <section class="py-16">
-            <h2 class="font-serif text-3xl text-center mb-12 animate-on-scroll" style="--delay: 1">Histórias que <span class="text-app-goldLight italic text-glow">tocam o coração</span></h2>
-            
-            <div class="space-y-6">
-                <!-- Card 1 -->
-                <div class="glass-panel p-8 relative animate-on-scroll" style="--delay: 2">
-                    <span class="absolute top-4 left-6 font-serif text-6xl text-app-gold/20 leading-none">"</span>
-                    <div class="text-app-gold tracking-[3px] text-sm mb-4 relative z-10">★★★★★</div>
-                    <p class="italic text-[15px] text-app-cream mb-6 relative z-10 leading-relaxed">
-                        Recebi minha leitura em menos de 20 horas. Ela falou de detalhes sobre a minha situação que eu nunca tinha contado pra ninguém. Fiquei completamente arrepiada. Recomendo de olhos fechados.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-app-bgSec2 to-app-wine flex items-center justify-center font-serif text-xl shadow-inner">C</div>
-                        <div>
-                            <strong class="block font-medium text-[15px] text-app-cream">Camila S.</strong>
-                            <span class="text-xs text-app-silver">São Paulo</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="glass-panel p-8 relative animate-on-scroll" style="--delay: 3">
-                    <span class="absolute top-4 left-6 font-serif text-6xl text-app-gold/20 leading-none">"</span>
-                    <div class="text-app-gold tracking-[3px] text-sm mb-4 relative z-10">★★★★★</div>
-                    <p class="italic text-[15px] text-app-cream mb-6 relative z-10 leading-relaxed">
-                        Eu tava completamente perdida sobre o que fazer com esse relacionamento. A leitura me deu a clareza que eu precisava pra tomar minha decisão. Me sinto muito mais leve agora.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-app-bgSec2 to-app-wine flex items-center justify-center font-serif text-xl shadow-inner">F</div>
-                        <div>
-                            <strong class="block font-medium text-[15px] text-app-cream">Fernanda R.</strong>
-                            <span class="text-xs text-app-silver">Recife</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="glass-panel p-8 relative animate-on-scroll" style="--delay: 4">
-                    <span class="absolute top-4 left-6 font-serif text-6xl text-app-gold/20 leading-none">"</span>
-                    <div class="text-app-gold tracking-[3px] text-sm mb-4 relative z-10">★★★★★</div>
-                    <p class="italic text-[15px] text-app-cream mb-6 relative z-10 leading-relaxed">
-                        Achei que ia ser uma coisa genérica igual a tudo que vejo por aí. Me surpreendi muito. Foi personalizada de verdade, com as cartas abertas no vídeo e explicação de cada uma. Valeu cada centavo.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 rounded-full bg-gradient-to-br from-app-bgSec2 to-app-wine flex items-center justify-center font-serif text-xl shadow-inner">J</div>
-                        <div>
-                            <strong class="block font-medium text-[15px] text-app-cream">Juliana M.</strong>
-                            <span class="text-xs text-app-silver">Belo Horizonte</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8. Preço e Oferta -->
-        <section class="py-16 text-center animate-on-scroll" style="--delay: 1">
-            <!-- Countdown JS -->
-            <div id="countdown" class="hidden justify-center gap-3 mb-10">
-                <div class="bg-white/5 border border-app-gold/40 rounded-xl p-3 min-w-[70px] backdrop-blur-md shadow-lg">
-                    <div id="cd-days" class="font-cinzel text-3xl text-app-goldLight leading-none">00</div>
-                    <div class="text-[10px] text-app-silver uppercase tracking-widest mt-1">Dias</div>
-                </div>
-                <div class="bg-white/5 border border-app-gold/40 rounded-xl p-3 min-w-[70px] backdrop-blur-md shadow-lg">
-                    <div id="cd-hours" class="font-cinzel text-3xl text-app-goldLight leading-none">00</div>
-                    <div class="text-[10px] text-app-silver uppercase tracking-widest mt-1">Horas</div>
-                </div>
-                <div class="bg-white/5 border border-app-gold/40 rounded-xl p-3 min-w-[70px] backdrop-blur-md shadow-lg">
-                    <div id="cd-minutes" class="font-cinzel text-3xl text-app-goldLight leading-none">00</div>
-                    <div class="text-[10px] text-app-silver uppercase tracking-widest mt-1">Min</div>
-                </div>
-                <div class="bg-white/5 border border-app-gold/40 rounded-xl p-3 min-w-[70px] backdrop-blur-md shadow-lg">
-                    <div id="cd-seconds" class="font-cinzel text-3xl text-app-goldLight leading-none">00</div>
-                    <div class="text-[10px] text-app-silver uppercase tracking-widest mt-1">Seg</div>
-                </div>
+            <div class="hero-mockup-container">
+                <img src="img/img_hero_mockup.png" alt="Vídeo da Leitura Amorosa no celular" 
+                     style="box-shadow: 0 0 50px rgba(110, 69, 226, 0.4); border: 1px solid rgba(255,255,255,0.05); width: 100%;">
             </div>
 
-            <!-- Price Box -->
-            <div class="glass-panel p-10 relative overflow-hidden bg-app-bg/80 border-app-gold/40">
-                <div class="absolute inset-0 bg-gradient-to-b from-app-gold/5 to-transparent pointer-events-none"></div>
-                
-                <span class="inline-block bg-gradient-to-r from-app-wine to-app-wineDark text-white font-cinzel text-[10px] tracking-widest uppercase py-1.5 px-4 rounded-full mb-6 relative z-10 shadow-lg">
-                    Oferta de Lançamento
-                </span>
-                
-                <div class="text-app-silver line-through text-lg mb-[-5px]">R$ 97,00</div>
-                <div class="font-serif font-light text-7xl text-app-goldLight leading-none mb-2 relative z-10 text-glow">
-                    <sup class="text-2xl top-[-1em] mr-1">R$</sup>37
-                </div>
-                <div class="text-app-silver text-lg mb-8">ou <b class="text-white font-medium">5x de R$ 8,19</b> sem juros</div>
-                
-                <ul class="text-left inline-block space-y-3 mb-10 relative z-10">
-                    <li class="flex items-center gap-3 text-[15px]"><span class="text-app-gold">✦</span> Vídeo 100% Personalizado</li>
-                    <li class="flex items-center gap-3 text-[15px]"><span class="text-app-gold">✦</span> Entrega via WhatsApp</li>
-                    <li class="flex items-center gap-3 text-[15px]"><span class="text-app-gold">✦</span> Áudio de Pós-Leitura</li>
-                    <li class="flex items-center gap-3 text-[15px] text-app-silver"><span class="text-app-gold">✦</span> PDF Exclusivo e Meditação</li>
-                    <li class="flex items-center gap-3 text-[15px] text-app-silver"><span class="text-app-gold">✦</span> Garantia Incondicional 7 Dias</li>
-                </ul>
+            <div class="hero-text-block-2">
+                <p class="hero-subheadline">
+                    Enquanto você tenta adivinhar o que ele sente, a dúvida continua roubando sua paz. Receba uma leitura personalizada feita para a sua história e descubra o que realmente está por trás do silêncio, da distância ou da confusão que você está vivendo.
+                </p>
 
-                <a href="https://pay.hotmart.com/H105947064I" class="btn-shimmer text-[#050510] font-cinzel font-bold text-base tracking-[2px] py-[18px] px-8 rounded-lg shadow-[0_0_20px_rgba(201,147,58,0.3)] hover:shadow-[0_0_30px_rgba(201,147,58,0.6)] hover:scale-[1.02] transition-all duration-300 w-full block relative z-10">
-                    ✦ QUERO MINHA LEITURA AGORA ✦
+                <div class="selos-confianca">
+                    <div class="selo-item"><svg class="icon"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Pagamento Seguro</div>
+                    <div class="selo-item"><svg class="icon"><polyline points="20 6 9 17 4 12"/></svg> Garantia 7 Dias</div>
+                    <div class="selo-item"><svg class="icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Entrega em 24h</div>
+                </div>
+
+                <a href="https://pay.hotmart.com/H105947064I?checkoutMode=10" class="cta-glow" style="margin-bottom: 16px;">
+                    ❤️ QUERO CLAREZA SOBRE MEU RELACIONAMENTO
                 </a>
                 
-                <div class="text-xs text-app-silver/60 mt-5 uppercase tracking-wider relative z-10">
-                    🔒 Pagamento 100% seguro | Pix, Cartão, Boleto | Acesso imediato
+                <p class="italic-font text-dourado-claro text-center" style="font-size: 1.05rem; margin: 0 auto;">
+                    Menos que um jantar fora. Mais que mil noites de ansiedade.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEÇÃO DORES -->
+    <section style="padding-top: 20px;">
+        <div class="container">
+            <h2 class="text-gradient mx-auto" style="max-width: 700px;">Toda mulher que chega até aqui tem algo em comum: ela está cansada de procurar respostas sozinha.</h2>
+            
+            <div class="grid-2 mb-40">
+                <div class="glass-card">
+                    <img src="img/img_dor_1.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
+                    <p style="margin: 0;">Ele sumiu do nada, sem explicação, e você fica analisando cada mensagem tentando entender o que aconteceu.</p>
+                </div>
+                <div class="glass-card">
+                    <img src="img/img_dor_2.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
+                    <p style="margin: 0;">Medo de se iludir de novo — você quer acreditar, mas uma parte de você já foi machucada antes.</p>
+                </div>
+                <div class="glass-card">
+                    <img src="img/img_dor_3.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
+                    <p style="margin: 0;">O relacionamento tá estagnado e você não sabe se empurra ou deixa ir.</p>
+                </div>
+                <div class="glass-card">
+                    <img src="img/img_dor_4.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
+                    <p style="margin: 0;">Seu coração diz uma coisa e sua cabeça diz outra — e você não consegue decidir nada.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- 9. Garantia -->
-        <section class="py-10">
-            <div class="glass-panel p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left animate-on-scroll" style="--delay: 1">
-                <span class="text-[40px] leading-none drop-shadow-md">🛡️</span>
-                <div>
-                    <h3 class="font-cinzel text-xl text-app-goldLight tracking-wider mb-2">Garantia Incondicional — 7 Dias</h3>
-                    <p class="text-[15px] text-app-silver leading-relaxed">
-                        Se por qualquer motivo você não ficar satisfeita com sua leitura, devolvemos 100% do seu dinheiro em até 7 dias. Sem perguntas, sem burocracia, sem drama. O risco é todo nosso.
-                    </p>
+            <p class="italic-font text-center mx-auto text-dourado" style="font-size: 1.35rem; max-width: 650px;">
+                "Talvez você não precise de mais tempo pensando. Talvez precise apenas enxergar com clareza."
+            </p>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CUSTO DÚVIDA -->
+    <section>
+        <div class="container">
+            <h2 class="text-gradient">O que a dúvida custa</h2>
+            <p class="text-center mx-auto mb-40" style="color: var(--texto-suave); font-size: 1.15rem;">
+                Quanto mais tempo você permanece sem respostas, mais espaço a ansiedade ocupa.
+            </p>
+            
+            <div class="grid-2">
+                <div class="glass-card" style="padding: 24px; align-items: flex-start; text-align: left;">
+                    <h3 style="color: var(--dourado); margin-bottom: 12px; font-family: 'Lato', sans-serif;">🌙 Noites mal dormidas</h3>
+                </div>
+                <div class="glass-card" style="padding: 24px; align-items: flex-start; text-align: left;">
+                    <h3 style="color: var(--dourado); margin-bottom: 12px; font-family: 'Lato', sans-serif;">💭 Pensamentos repetitivos</h3>
+                </div>
+                <div class="glass-card" style="padding: 24px; align-items: flex-start; text-align: left;">
+                    <h3 style="color: var(--dourado); margin-bottom: 12px; font-family: 'Lato', sans-serif;">📱 Obsessão por mensagens</h3>
+                </div>
+                <div class="glass-card" style="padding: 24px; align-items: flex-start; text-align: left;">
+                    <h3 style="color: var(--dourado); margin-bottom: 12px; font-family: 'Lato', sans-serif;">❤️ Medo constante de sofrer</h3>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 10. FAQ -->
-        <section class="py-16">
-            <h2 class="font-serif text-3xl text-center mb-10 animate-on-scroll" style="--delay: 1">Perguntas Frequentes</h2>
-            
-            <div class="space-y-3">
-                <!-- FAQ Item 1 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 2">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        Preciso entender de Baralho Cigano para receber a leitura?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Não. Você só precisa fazer sua pergunta. A interpretação é feita para você de forma clara e objetiva.
-                        </div>
-                    </div>
-                </details>
-                <!-- FAQ Item 2 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 3">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        Como recebo o vídeo?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Diretamente no seu WhatsApp em até 24 horas úteis após preencher o formulário (enviado após a compra).
-                        </div>
-                    </div>
-                </details>
-                <!-- FAQ Item 3 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 4">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        A leitura é realmente personalizada?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Sim. Cada vídeo é gravado especificamente para você com sua pergunta e focada na sua situação atual.
-                        </div>
-                    </div>
-                </details>
-                <!-- FAQ Item 4 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 5">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        E se eu não gostar?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Você tem 7 dias de garantia total. Basta solicitar o reembolso na plataforma Hotmart e o dinheiro será devolvido na íntegra.
-                        </div>
-                    </div>
-                </details>
-                <!-- FAQ Item 5 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 6">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        Funciona para qualquer situação amorosa?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Sim: crush, namoro, relacionamento estagnado, término, reconciliação, ou para entender se deve ir embora.
-                        </div>
-                    </div>
-                </details>
-                <!-- FAQ Item 6 -->
-                <details class="glass-panel group animate-on-scroll" style="--delay: 7">
-                    <summary class="flex justify-between items-center cursor-pointer p-6 font-serif text-[19px] text-app-cream outline-none">
-                        Posso parcelar?
-                        <span class="faq-icon text-app-gold text-2xl transition-transform duration-300 ml-4 leading-none">+</span>
-                    </summary>
-                    <div class="faq-content">
-                        <div class="faq-inner px-6 pb-6 text-[15px] text-app-silver">
-                            Sim, em até 5x de R$ 8,19 sem juros no cartão de crédito. Ou R$ 37 à vista no Pix e Boleto.
-                        </div>
-                    </div>
-                </details>
+    <!-- SEÇÃO O QUE É -->
+    <section>
+        <div class="container">
+            <h2 class="text-gradient">A Leitura Amorosa Personalizada</h2>
+            <p class="text-center mx-auto mb-40" style="color: var(--texto-suave); max-width: 650px; font-size: 1.1rem;">
+                Em vez de continuar imaginando cenários, você recebe uma visão clara sobre a situação que está vivendo.
+            </p>
+
+            <div class="grid-3">
+                <div class="glass-card">
+                    <h3 class="mb-16 text-gradient">Clareza Absoluta</h3>
+                    <p style="margin: 0; color: var(--texto-suave);">Entenda o que está travando o seu relacionamento e o que ele realmente sente.</p>
+                </div>
+                <div class="glass-card">
+                    <h3 class="mb-16 text-gradient">Sem Julgamentos</h3>
+                    <p style="margin: 0; color: var(--texto-suave);">Uma orientação acolhedora, honesta e direta para ajudar você a decidir seus próximos passos.</p>
+                </div>
+                <div class="glass-card">
+                    <h3 class="mb-16 text-gradient">No seu Tempo</h3>
+                    <p style="margin: 0; color: var(--texto-suave);">Receba a análise no WhatsApp e assista quando estiver pronta, onde quiser.</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 11. CTA Final -->
-        <section class="py-24 text-center relative animate-on-scroll" style="--delay: 1">
-            <div class="absolute inset-0 bg-gradient-to-t from-app-wineDark/10 to-transparent pointer-events-none rounded-3xl"></div>
-            
-            <h2 class="font-serif text-3xl mb-4 relative z-10">Não deixe a confusão amorosa te paralisar por <span class="text-app-goldLight italic text-glow">mais um único dia</span></h2>
-            <p class="text-app-silver mb-10 text-[15px] relative z-10">Seu vídeo estará no WhatsApp em até 24 horas. A clareza que você precisa está a um clique.</p>
-            
-            <a href="https://pay.hotmart.com/H105947064I" class="btn-shimmer text-[#050510] font-cinzel font-bold text-base tracking-[2px] py-[18px] px-11 rounded-lg shadow-[0_0_20px_rgba(201,147,58,0.3)] hover:shadow-[0_0_30px_rgba(201,147,58,0.6)] hover:scale-[1.02] transition-all duration-300 w-full max-w-[400px] inline-block relative z-10">
-                ✦ QUERO MINHA LEITURA POR R$ 37 ✦
+    <!-- PROVA SOCIAL -->
+    <section class="bg-img-section" style="background-image: url('img/img_depoimento_bg.png');">
+        <div class="container">
+            <h2 class="text-gradient">Elas chegaram cheias de dúvidas.<br>Saíram com clareza.</h2>
+            <p class="text-center mx-auto mb-40 italic-font text-dourado-claro" style="font-size: 1.25rem; max-width: 600px;">
+                Veja como essa experiência ajudou outras mulheres a encontrarem respostas:
+            </p>
+
+            <div class="wpp-wrapper">
+                <img src="img/%23print%201.jpeg" alt="Depoimento WhatsApp" class="wpp-print">
+                <img src="img/%23print%202.jpeg" alt="Depoimento WhatsApp" class="wpp-print">
+                <img src="img/%23print%203.jpeg" alt="Depoimento WhatsApp" class="wpp-print">
+            </div>
+        </div>
+    </section>
+
+    <!-- OFERTA -->
+    <section id="oferta">
+        <div class="container">
+            <h2 class="text-gradient mx-auto mb-40" style="max-width: 800px; font-size: clamp(2rem, 5vw, 3.5rem);">
+                Você pode continuar convivendo com a dúvida... Ou pode finalmente descobrir o que está acontecendo.
+            </h2>
+
+            <div class="glass-card mx-auto" style="max-width: 900px; padding-top: 40px; padding-bottom: 40px;">
+                <img src="img/img_produto_principal.png" alt="Bundle Completo" class="mx-auto mb-32" style="max-width: 550px; width: 100%;">
+
+                <div class="stack-list">
+                    <div class="stack-item">
+                        <span class="stack-title">🎥 Leitura Personalizada</span>
+                        <span style="color: var(--texto-suave); white-space: nowrap;">R$ 97</span>
+                    </div>
+                    <div class="stack-item">
+                        <span class="stack-title">📄 Bônus 1: Guia PDF</span>
+                        <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 27</span> <span class="text-dourado">GRÁTIS</span></div>
+                    </div>
+                    <div class="stack-item">
+                        <span class="stack-title">🎧 Bônus 2: Áudio Pós-Leitura</span>
+                        <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 37</span> <span class="text-dourado">GRÁTIS</span></div>
+                    </div>
+                    <div class="stack-item">
+                        <span class="stack-title">🧘 Bônus 3: Meditação</span>
+                        <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 37</span> <span class="text-dourado">GRÁTIS</span></div>
+                    </div>
+                    <div class="stack-item" style="border-bottom: none;">
+                        <span class="stack-title">💌 Bônus 4: Cupom R$ 40 OFF</span>
+                        <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 40</span> <span class="text-dourado">GRÁTIS</span></div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-24" style="width: 100%;">
+                    <div class="text-gradient" style="font-family: 'Playfair Display', serif; font-weight: 900; font-size: 4.5rem; line-height: 1; margin: 8px 0;">R$ 37</div>
+                    <a href="https://pay.hotmart.com/H105947064I?checkoutMode=10" class="cta-glow cta-primary">
+                        ❤️ QUERO MINHA CLAREZA AGORA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GARANTIA -->
+    <section>
+        <div class="container text-center" style="max-width: 600px;">
+            <img src="img/img_garantia.png" alt="Selo Garantia" class="mx-auto mb-24" style="max-width: 140px; width: 100%;">
+            <h2 class="text-gradient mb-16">Você não precisa decidir no escuro.</h2>
+            <p style="color: var(--texto-suave); font-size: 1.1rem;">
+                Experimente sem risco. Se sentir que a leitura não trouxe valor ou clareza para você, basta pedir o reembolso em até 7 dias e devolvemos seu investimento integralmente.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <div class="container" style="max-width: 800px;">
+            <h2 class="text-gradient mb-40">Dúvidas Frequentes</h2>
+            <div class="glass-card" style="padding: 16px 24px;">
+                <div class="faq-item">
+                    <button class="faq-pergunta">Preciso entender de cartas? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Não! A Manu explica tudo em linguagem acessível. Você não precisa saber nada sobre tarot.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-pergunta">Como recebo o vídeo? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Após a compra, você preenche um formulário. O vídeo é enviado no WhatsApp em até 24 horas.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-pergunta">É personalizado mesmo? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Sim, 100%. Cada leitura é gravada individualmente, baseada na sua situação.</div>
+                </div>
+                <div class="faq-item" style="border: none;">
+                    <button class="faq-pergunta">Posso assistir mais de uma vez? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Sim! O vídeo é seu para sempre. Assista no momento certo para você.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="bg-img-section" style="background-image: url('img/img_cta_final.png');">
+        <div class="container text-center" style="padding-top: 60px; padding-bottom: 60px;">
+            <h2 class="text-gradient" style="font-size: clamp(2rem, 6vw, 4rem); max-width: 800px; margin: 0 auto 24px;">Você já passou tempo demais tentando descobrir sozinha.</h2>
+            <p class="italic-font text-dourado-claro mx-auto mb-40" style="font-size: 1.35rem; max-width: 600px;">Talvez a resposta que você procura esteja a apenas uma leitura de distância.</p>
+            <a href="https://pay.hotmart.com/H105947064I?checkoutMode=10" class="cta-glow cta-primary mx-auto">
+                ❤️ QUERO MINHA CLAREZA AGORA
             </a>
-            
-            <div class="flex flex-wrap justify-center gap-4 mt-6 text-xs text-app-silver opacity-80 relative z-10">
-                <span class="flex items-center gap-1">🔒 Seguro</span>
-                <span>|</span>
-                <span class="flex items-center gap-1">📲 Em 24h</span>
-                <span>|</span>
-                <span class="flex items-center gap-1">🛡️ 7 Dias Garantia</span>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 12. Footer -->
-        <footer class="mt-10 border-t border-app-gold/10 pt-10 pb-6 text-center animate-on-scroll" style="--delay: 2">
-            <p class="text-xs text-app-silver/40 mb-3">© 2026 Leitura do Coração · Todos os direitos reservados · Produto digital entregue via Hotmart</p>
-            <div class="text-xs text-app-silver/40 space-x-2">
-                <a href="#" class="hover:text-app-silver transition-colors">Política de Privacidade</a>
-                <span>·</span>
-                <a href="#" class="hover:text-app-silver transition-colors">Termos de Uso</a>
-                <span>·</span>
-                <a href="#" class="hover:text-app-silver transition-colors">Suporte</a>
-            </div>
-        </footer>
-
-    </main>
-
-    <!-- Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Intersection Observer for Smooth Scroll Animations (Framer Motion effect)
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -50px 0px',
-                threshold: 0.1
-            };
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+            gsap.ticker.lagSmoothing(0);
+        }
 
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        obs.unobserve(entry.target); // trigger only once
-                    }
+        gsap.utils.toArray('section').forEach(section => {
+            const items = section.querySelectorAll('.glass-card, h2, .grid-dor img, .wpp-wrapper');
+            if (items.length) {
+                gsap.from(items, {
+                    opacity: 0, y: 40, duration: 0.8, stagger: 0.1, ease: 'power2.out',
+                    scrollTrigger: { trigger: section, start: 'top 85%' }
                 });
-            }, observerOptions);
-
-            document.querySelectorAll('.animate-on-scroll').forEach(el => {
-                observer.observe(el);
-            });
-
-            // 2. Countdown Timer
-            const targetDate = new Date('2026-06-12T23:59:00').getTime();
-            const countdownEl = document.getElementById('countdown');
-            const cdDays = document.getElementById('cd-days');
-            const cdHours = document.getElementById('cd-hours');
-            const cdMins = document.getElementById('cd-minutes');
-            const cdSecs = document.getElementById('cd-seconds');
-            
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance > 0) {
-                    countdownEl.style.display = 'flex';
-                    
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    cdDays.innerText = days.toString().padStart(2, '0');
-                    cdHours.innerText = hours.toString().padStart(2, '0');
-                    cdMins.innerText = minutes.toString().padStart(2, '0');
-                    cdSecs.innerText = seconds.toString().padStart(2, '0');
-                } else {
-                    countdownEl.style.display = 'none';
-                }
             }
-            
-            setInterval(updateCountdown, 1000);
-            updateCountdown();
+        });
 
-            // 3. FAQ details toggle exclusive (optional: closes others when opening one)
-            const detailsElements = document.querySelectorAll("details");
-            detailsElements.forEach((targetDetail) => {
-                targetDetail.addEventListener("click", () => {
-                    detailsElements.forEach((detail) => {
-                        if (detail !== targetDetail) {
-                            detail.removeAttribute("open");
-                        }
-                    });
-                });
+        document.querySelectorAll('.faq-pergunta').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({ top: target.offsetTop - 30, behavior: 'smooth' });
+                }
             });
         });
     </script>
