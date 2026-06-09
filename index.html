@@ -6,19 +6,14 @@
     <meta name="description" content="Leitura Amorosa Personalizada pelo Baralho Cigano Lenormand. Vídeo exclusivo no WhatsApp em 24h.">
     <title>Leitura Amorosa Personalizada — Clareza em 24h</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Lato:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
 
-    <!-- GSAP + ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Lenis (smooth scroll) -->
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
     <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
-    <!-- SplitType -->
-    <script src="https://unpkg.com/split-type"></script>
 
     <style>
         :root {
@@ -28,7 +23,7 @@
             --dourado:      #D4A843;
             --dourado-claro:#F0C96B;
             --texto:        #ffffff;
-            --texto-suave:  rgba(255, 255, 255, 0.75);
+            --texto-suave:  rgba(255, 255, 255, 0.85);
             --surface:      rgba(255, 255, 255, 0.04);
             --surface-hover:rgba(255, 255, 255, 0.08);
             --border:       rgba(255, 255, 255, 0.1);
@@ -49,7 +44,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Background Nebula */
         .nebula {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #030008 100%);
@@ -62,16 +56,8 @@
 
         img { width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; object-fit: contain; }
 
-        /* Tipografia Refinada */
+        /* Tipografia Base */
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        
-        h1 {
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
-            font-style: italic;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
         
         h2 {
             font-size: clamp(1.8rem, 5vw, 3rem);
@@ -79,11 +65,11 @@
             line-height: 1.25;
             margin-bottom: 32px;
             text-align: center;
-            letter-spacing: -0.01em;
         }
 
         p { font-size: clamp(1rem, 2vw, 1.1rem); margin-bottom: 16px; }
 
+        /* Estilos de Destaque */
         .text-gradient {
             background: linear-gradient(to bottom, #ffffff, #c2a8ff);
             -webkit-background-clip: text;
@@ -235,6 +221,24 @@
         .faq-chevron { transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
         .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--dourado); }
     </style>
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1525880612540890');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1525880612540890&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -281,32 +285,36 @@
         </div>
     </section>
 
-    <!-- SEÇÃO DORES -->
+    <!-- SEÇÃO 2: DOR (Copy Otimizada) -->
     <section style="padding-top: 20px;">
         <div class="container">
-            <h2 class="text-gradient mx-auto" style="max-width: 700px;">Toda mulher que chega até aqui tem algo em comum: ela está cansada de procurar respostas sozinha.</h2>
+            <h2 class="text-gradient mx-auto" style="max-width: 700px;">Você está vivendo algum desses sinais no seu relacionamento?</h2>
             
             <div class="grid-2 mb-40">
-                <div class="glass-card">
-                    <img src="img/img_dor_1.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
-                    <p style="margin: 0;">Ele sumiu do nada, sem explicação, e você fica analisando cada mensagem tentando entender o que aconteceu.</p>
+                <div class="glass-card" style="padding: 32px 24px;">
+                    <img src="img/img_dor_1.png" alt="Ele sumiu" style="max-width: 120px; margin-bottom: 24px;">
+                    <h3 class="text-dourado mb-16" style="font-family: 'Lato', sans-serif; font-size: 1.2rem;">Sumiço e Frieza</h3>
+                    <p style="margin: 0; font-size: 1rem; color: var(--texto-suave);">Ele some e volta diferente? As mensagens esfriaram de repente e você sente que ele está cada vez mais distante?</p>
                 </div>
-                <div class="glass-card">
-                    <img src="img/img_dor_2.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
-                    <p style="margin: 0;">Medo de se iludir de novo — você quer acreditar, mas uma parte de você já foi machucada antes.</p>
+                <div class="glass-card" style="padding: 32px 24px;">
+                    <img src="img/img_dor_2.png" alt="Outra pessoa" style="max-width: 120px; margin-bottom: 24px;">
+                    <h3 class="text-dourado mb-16" style="font-family: 'Lato', sans-serif; font-size: 1.2rem;">A sombra da dúvida</h3>
+                    <p style="margin: 0; font-size: 1rem; color: var(--texto-suave);">Existe outra mulher na jogada? Você sente que algo mudou, mas quando pergunta, ele diz que "está tudo normal"?</p>
                 </div>
-                <div class="glass-card">
-                    <img src="img/img_dor_3.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
-                    <p style="margin: 0;">O relacionamento tá estagnado e você não sabe se empurra ou deixa ir.</p>
+                <div class="glass-card" style="padding: 32px 24px;">
+                    <img src="img/img_dor_3.png" alt="Incerteza" style="max-width: 120px; margin-bottom: 24px;">
+                    <h3 class="text-dourado mb-16" style="font-family: 'Lato', sans-serif; font-size: 1.2rem;">Falta de clareza</h3>
+                    <p style="margin: 0; font-size: 1rem; color: var(--texto-suave);">Ele ainda pensa em você? O relacionamento travou e você já não sabe se vale a pena continuar insistindo ou se deve deixar ir?</p>
                 </div>
-                <div class="glass-card">
-                    <img src="img/img_dor_4.png" alt="Ilustração" style="max-width: 140px; margin-bottom: 20px;">
-                    <p style="margin: 0;">Seu coração diz uma coisa e sua cabeça diz outra — e você não consegue decidir nada.</p>
+                <div class="glass-card" style="padding: 32px 24px;">
+                    <img src="img/img_dor_4.png" alt="Ansiedade" style="max-width: 120px; margin-bottom: 24px;">
+                    <h3 class="text-dourado mb-16" style="font-family: 'Lato', sans-serif; font-size: 1.2rem;">Guerra interna</h3>
+                    <p style="margin: 0; font-size: 1rem; color: var(--texto-suave);">Seu coração diz para ter paciência, mas sua razão diz que você está sendo enganada e perdendo tempo?</p>
                 </div>
             </div>
 
-            <p class="italic-font text-center mx-auto text-dourado" style="font-size: 1.35rem; max-width: 650px;">
-                "Talvez você não precise de mais tempo pensando. Talvez precise apenas enxergar com clareza."
+            <p class="italic-font text-center mx-auto text-dourado-claro" style="font-size: 1.35rem; max-width: 700px;">
+                "Toda mulher que chega até aqui tem algo em comum: ela está exausta de tentar adivinhar sozinha o que está acontecendo."
             </p>
         </div>
     </section>
@@ -389,19 +397,19 @@
 
                 <div class="stack-list">
                     <div class="stack-item">
-                        <span class="stack-title">🎥 Leitura Personalizada</span>
+                        <span class="stack-title">🎥 Leitura Personalizada <br><span style="font-size: 0.85em; font-weight: normal; color: var(--dourado-claro);">→ Clareza sobre sua situação atual</span></span>
                         <span style="color: var(--texto-suave); white-space: nowrap;">R$ 97</span>
                     </div>
                     <div class="stack-item">
-                        <span class="stack-title">📄 Bônus 1: Guia PDF</span>
+                        <span class="stack-title">📄 Bônus 1: Guia PDF <br><span style="font-size: 0.85em; font-weight: normal; color: var(--dourado-claro);">→ Saiba o que esperar das cartas</span></span>
                         <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 27</span> <span class="text-dourado">GRÁTIS</span></div>
                     </div>
                     <div class="stack-item">
-                        <span class="stack-title">🎧 Bônus 2: Áudio Pós-Leitura</span>
+                        <span class="stack-title">🎧 Bônus 2: Áudio Pós-Leitura <br><span style="font-size: 0.85em; font-weight: normal; color: var(--dourado-claro);">→ Reescute sempre que a ansiedade voltar</span></span>
                         <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 37</span> <span class="text-dourado">GRÁTIS</span></div>
                     </div>
                     <div class="stack-item">
-                        <span class="stack-title">🧘 Bônus 3: Meditação</span>
+                        <span class="stack-title">🧘 Bônus 3: Meditação <br><span style="font-size: 0.85em; font-weight: normal; color: var(--dourado-claro);">→ Reduza a sobrecarga emocional</span></span>
                         <div style="white-space: nowrap;"><span style="text-decoration: line-through; color: var(--texto-suave); margin-right: 8px;">R$ 37</span> <span class="text-dourado">GRÁTIS</span></div>
                     </div>
                     <div class="stack-item" style="border-bottom: none;">
@@ -411,10 +419,15 @@
                 </div>
 
                 <div class="text-center mt-24" style="width: 100%;">
+                    <p style="color: var(--texto-suave);">Valor total: <span style="text-decoration: line-through;">R$ 238</span></p>
+                    <p style="font-size: 1.1rem; margin-top: 8px;">Hoje, você paga apenas:</p>
                     <div class="text-gradient" style="font-family: 'Playfair Display', serif; font-weight: 900; font-size: 4.5rem; line-height: 1; margin: 8px 0;">R$ 37</div>
+                    <p style="color: var(--texto-suave); margin-bottom: 32px; font-weight: 300;">ou 5x de R$ 8,19 no cartão</p>
+
                     <a href="https://pay.hotmart.com/H105947064I?checkoutMode=10" class="cta-glow cta-primary">
                         ❤️ QUERO MINHA CLAREZA AGORA
                     </a>
+                    <p style="margin-top: 16px; font-size: 0.85rem; color: var(--texto-suave);">🔒 Pagamento 100% seguro Hotmart</p>
                 </div>
             </div>
         </div>
@@ -437,20 +450,24 @@
             <h2 class="text-gradient mb-40">Dúvidas Frequentes</h2>
             <div class="glass-card" style="padding: 16px 24px;">
                 <div class="faq-item">
-                    <button class="faq-pergunta">Preciso entender de cartas? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-                    <div class="faq-resposta">Não! A Manu explica tudo em linguagem acessível. Você não precisa saber nada sobre tarot.</div>
+                    <button class="faq-pergunta">Isso funciona mesmo se a pessoa estiver distante? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Sim. O baralho acessa as energias da situação, independente da distância física entre vocês.</div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-pergunta">Como recebo o vídeo? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-                    <div class="faq-resposta">Após a compra, você preenche um formulário. O vídeo é enviado no WhatsApp em até 24 horas.</div>
+                    <button class="faq-pergunta">Posso perguntar sobre ex? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Com certeza. É uma das leituras mais comuns. Ajuda a entender se há volta ou se é hora de seguir em frente.</div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-pergunta">É personalizado mesmo? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-                    <div class="faq-resposta">Sim, 100%. Cada leitura é gravada individualmente, baseada na sua situação.</div>
+                    <button class="faq-pergunta">E se eu não gostar da resposta? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">A leitura mostra a verdade da energia atual. Nem sempre é o que queremos, mas é sempre o que precisamos saber para parar de sofrer. Se não sentir conexão, você tem a garantia de 7 dias.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-pergunta">A leitura é realmente individual? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Sim! Não é um vídeo automático. A Manu grava focada apenas nos nomes e na situação que você enviar.</div>
                 </div>
                 <div class="faq-item" style="border: none;">
-                    <button class="faq-pergunta">Posso assistir mais de uma vez? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
-                    <div class="faq-resposta">Sim! O vídeo é seu para sempre. Assista no momento certo para você.</div>
+                    <button class="faq-pergunta">Quanto tempo demora? <svg class="faq-chevron icon"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+                    <div class="faq-resposta">Após preencher o formulário, você receberá o vídeo no seu WhatsApp em até 24 horas.</div>
                 </div>
             </div>
         </div>
